@@ -1,0 +1,42 @@
+menu "BH1750"
+    depends on ILLUMINANCE_SENSOR_TYPE_BH1750
+
+    choice BH1750_I2C_ADDRESS
+        prompt "I2C address"
+        default BH1750_I2C_ADDRESS_ADDR_TO_GND
+
+        config BH1750_I2C_ADDRESS_ADDR_TO_GND
+            bool "0x23"
+
+        config BH1750_I2C_ADDRESS_ADDR_TO_VCC
+            bool "0x5C"
+    endchoice
+
+    config BH1750_READ_INTERVAL_MS
+        int "Reading interval"
+        default 10000
+        help
+            Time between two readings (in milliseconds)
+
+    choice BH1750_MODE
+        prompt "Mode"
+        default BH1750_MODE_SINGLE_SHOT
+
+        config BH1750_MODE_CONTINUOUS
+            bool "Continuous"
+        config BH1750_MODE_SINGLE_SHOT
+            bool "Single shot"
+    endchoice
+
+    choice BH1750_RESOLUTION
+        prompt "Resolution"
+        default BH1750_H_RESOLUTION
+
+        config BH1750_L_RESOLUTION
+            bool "Low resolution (4 lx)"
+        config BH1750_H_RESOLUTION
+            bool "High resolution (1 lx)"
+        config BH1750_VH_RESOLUTION
+            bool "Very High resolution (0.5 lx)"
+    endchoice
+endmenu

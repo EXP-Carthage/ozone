@@ -1,0 +1,124 @@
+menu "BME280"
+    depends on (HUMIDITY_SENSOR_TYPE_BME280 || PRESSURE_SENSOR_TYPE_BME280 || TEMPERATURE_SENSOR_TYPE_BME280)
+
+    choice BME280_I2C_ADDRESS
+        prompt "I2C address"
+        default BME280_I2C_ADDRESS_SDO_TO_GND
+
+        config BME280_I2C_ADDRESS_SDO_TO_GND
+            bool "0x76"
+        config BME280_I2C_ADDRESS_SDO_TO_VDD
+            bool "0x77"
+    endchoice
+
+    config BME280_READ_INTERVAL_MS
+        int "Reading interval"
+        default 30000
+        help
+            Time between two readings (in milliseconds)
+
+
+    choice BME280_MODE
+        prompt "Mode"
+        default BME280_MODE_NORMAL
+
+        config BME280_MODE_SLEEP
+            bool "Sleep"
+        config BME280_MODE_NORMAL
+            bool "Normal"
+        config BME280_MODE_FORCED
+            bool "Forced"
+    endchoice
+
+    choice BME280_STANDBY_TIME
+        prompt "Standby time"
+        default BME280_STANDBY_0_5_MS
+
+        config BME280_STANDBY_0_5_MS
+            bool "0.5 ms"
+        config BME280_STANDBY_10_MS
+            bool "10 ms"
+        config BME280_STANDBY_20_MS
+            bool "20 ms"
+        config BME280_STANDBY_62_5_MS
+            bool "62.5 ms"
+        config BME280_STANDBY_125_MS
+            bool "125 ms"
+        config BME280_STANDBY_250_MS
+            bool "250 ms"
+        config BME280_STANDBY_500_MS
+            bool "500 ms"
+        config BME280_STANDBY_1000_MS
+            bool "1000 ms"
+    endchoice
+
+    choice BME280_IIR_FILTER_COEFF
+        prompt "IIR filter"
+        default BME280_IIR_FILTER_OFF
+
+        config BME280_IIR_FILTER_OFF
+            bool "Off"
+        config BME280_IIR_FILTER_X2
+            bool "2"
+        config BME280_IIR_FILTER_X4
+            bool "4"
+        config BME280_IIR_FILTER_X8
+            bool "8"
+        config BME280_IIR_FILTER_X16
+            bool "16"
+    endchoice
+
+    choice BME280_HUMIDITY_OVERSAMPLING
+        prompt "Humidity oversampling"
+        default BME280_HUMIDITY_OVERSAMPLING_X1
+
+        config BME280_HUMIDITY_NO_OVERSAMPLING
+            bool "0"
+        config BME280_HUMIDITY_OVERSAMPLING_X1
+            bool "1"
+        config BME280_HUMIDITY_OVERSAMPLING_X2
+            bool "2"
+        config BME280_HUMIDITY_OVERSAMPLING_X4
+            bool "4"
+        config BME280_HUMIDITY_OVERSAMPLING_X8
+            bool "8"
+        config BME280_HUMIDITY_OVERSAMPLING_X16
+            bool "16"
+    endchoice
+
+    choice BME280_PRESSURE_OVERSAMPLING
+        prompt "Pressure oversampling"
+        default BME280_PRESSURE_OVERSAMPLING_X1
+
+        config BME280_PRESSURE_NO_OVERSAMPLING
+            bool "0"
+        config BME280_PRESSURE_OVERSAMPLING_X1
+            bool "1"
+        config BME280_PRESSURE_OVERSAMPLING_X2
+            bool "2"
+        config BME280_PRESSURE_OVERSAMPLING_X4
+            bool "4"
+        config BME280_PRESSURE_OVERSAMPLING_X8
+            bool "8"
+        config BME280_PRESSURE_OVERSAMPLING_X16
+            bool "16"
+    endchoice
+
+    choice BME280_TEMPERATURE_OVERSAMPLING
+        prompt "Temperature oversampling"
+        default BME280_TEMPERATURE_OVERSAMPLING_X1
+
+        config BME280_TEMPERATURE_NO_OVERSAMPLING
+            bool "0"
+        config BME280_TEMPERATURE_OVERSAMPLING_X1
+            bool "1"
+        config BME280_TEMPERATURE_OVERSAMPLING_X2
+            bool "2"
+        config BME280_TEMPERATURE_OVERSAMPLING_X4
+            bool "4"
+        config BME280_TEMPERATURE_OVERSAMPLING_X8
+            bool "8"
+        config BME280_TEMPERATURE_OVERSAMPLING_X16
+            bool "16"
+    endchoice
+endmenu

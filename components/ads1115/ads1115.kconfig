@@ -1,0 +1,535 @@
+menu "ADS1115"
+    depends on (ANEMOMETER_TYPE_ADS1115 || WIND_VANE_TYPE_ADS1115)
+
+    choice ADS1115_I2C_ADDRESS
+        prompt "I2C address"
+        default ADS1115_I2C_ADDRESS_ADDR_TO_GND
+
+        config ADS1115_I2C_ADDRESS_ADDR_TO_GND
+            bool "0x48"
+        config ADS1115_I2C_ADDRESS_ADDR_TO_VDD
+            bool "0x49"
+        config ADS1115_I2C_ADDRESS_ADDR_TO_SDA
+            bool "0x4A"
+        config ADS1115_I2C_ADDRESS_ADDR_TO_SCL
+            bool "0x4B"
+    endchoice
+
+    menu "Configuration"
+        menu "Channel 0"
+            choice ADS1115_AIN0_MUX
+                prompt "Input multiplexer configuration"
+                default ADS1115_AIN0_MUX_0_GND
+                help
+                    These bits configure the input multiplexer.
+
+                config ADS1115_AIN0_MUX_0_1
+                    bool "0 & 1"
+                config ADS1115_AIN0_MUX_0_3
+                    bool "0 & 3"
+                config ADS1115_AIN0_MUX_0_GND
+                    bool "0 & GND"
+            endchoice
+
+            choice ADS1115_AIN0_PGA
+                prompt "Programmable gain amplifier configuration"
+                default ADS1115_AIN0_PGA_6_144
+                help
+                    These bits set the FSR of the programmable gain amplifier.
+
+                config ADS1115_AIN0_PGA_0_256
+                    bool "±0.256 V"
+                config ADS1115_AIN0_PGA_0_512
+                    bool "±0.512 V"
+                config ADS1115_AIN0_PGA_1_024
+                    bool "±1.024 V"
+                config ADS1115_AIN0_PGA_2_048
+                    bool "±2.048 V"
+                config ADS1115_AIN0_PGA_4_096
+                    bool "±4.096 V"
+                config ADS1115_AIN0_PGA_6_144
+                    bool "±6.144 V"
+            endchoice
+
+            choice ADS1115_AIN0_MODE
+                prompt "Device operating mode"
+                default ADS1115_AIN0_MODE_SINGLE_SHOT
+                help
+                    This bit controls the operating mode.
+
+                config ADS1115_AIN0_MODE_CONTINUOUS
+                    bool "Continuous"
+                config ADS1115_AIN0_MODE_SINGLE_SHOT
+                    bool "Single shot"
+            endchoice
+
+            choice ADS1115_AIN0_DR
+                prompt "Data rate"
+                default ADS1115_AIN0_DR_128_SPS
+                help
+                    These bits control the data rate setting.
+
+                config ADS1115_AIN0_DR_8_SPS
+                    bool "8 SPS"
+                config ADS1115_AIN0_DR_16_SPS
+                    bool "16 SPS"
+                config ADS1115_AIN0_DR_32_SPS
+                    bool "32 SPS"
+                config ADS1115_AIN0_DR_64_SPS
+                    bool "64 SPS"
+                config ADS1115_AIN0_DR_128_SPS
+                    bool "128 SPS"
+                config ADS1115_AIN0_DR_250_SPS
+                    bool "250 SPS"
+                config ADS1115_AIN0_DR_475_SPS
+                    bool "475 SPS"
+                config ADS1115_AIN0_DR_860_SPS
+                    bool "860 SPS"
+            endchoice
+
+            choice ADS1115_AIN0_COMP_MODE
+                prompt "Comparator mode"
+                default ADS1115_AIN0_COMP_MODE_TRADITIONAL
+                help
+                    This bit configures the comparator operating mode.
+
+                config ADS1115_AIN0_COMP_MODE_TRADITIONAL
+                    bool "Traditional"
+                config ADS1115_AIN0_COMP_MODE_WINDOW
+                    bool "Window"
+            endchoice
+
+            choice ADS1115_AIN0_COMP_POL
+                prompt "Comparator polarity"
+                default ADS1115_AIN0_COMP_POL_LOW
+                help
+                    This bit controls the polarity of the ALERT/RDY pin.
+
+                config ADS1115_AIN0_COMP_POL_LOW
+                    bool "Active low"
+                config ADS1115_AIN0_COMP_POL_HIGH
+                    bool "Active high"
+            endchoice
+
+            choice ADS1115_AIN0_COMP_LAT
+                prompt "Latching comparator"
+                default ADS1115_AIN0_COMP_LAT_NONLATCHING
+                help
+                    This bit controls whether the ALERT/RDY pin latches after being asserted or clears after
+                    conversions are within the margin of the upper and lower threshold values.
+
+                config ADS1115_AIN0_COMP_LAT_NONLATCHING
+                    bool "Nonlatching"
+                config ADS1115_AIN0_COMP_LAT_LATCHING
+                    bool "Latching"
+            endchoice
+
+            choice ADS1115_AIN0_COMP_QUE
+                prompt "Comparator queue and disable"
+                default ADS1115_AIN0_COMP_QUE_DISABLE
+                help
+                    These bits perform two functions. When set to 11, the comparator is disabled and the
+                    ALERT/RDY pin is set to a high-impedance state. When set to any other value, the ALERT/RDY
+                    pin and the comparator function are enabled, and the set value determines the number of
+                    successive conversions exceeding the upper or lower threshold required before asserting
+                    the ALERT/RDY pin.
+
+                config ADS1115_AIN0_COMP_QUE_ASSERT1
+                    bool "Assert after one conversion"
+                config ADS1115_AIN0_COMP_QUE_ASSERT2
+                    bool "Assert after two conversions"
+                config ADS1115_AIN0_COMP_QUE_ASSERT4
+                    bool "Assert after four conversions"
+                config ADS1115_AIN0_COMP_QUE_DISABLE
+                    bool "Disable"
+            endchoice
+        endmenu
+
+        menu "Channel 1"
+            choice ADS1115_AIN1_MUX
+                prompt "Input multiplexer configuration"
+                default ADS1115_AIN1_MUX_1_GND
+                help
+                    These bits configure the input multiplexer.
+
+                config ADS1115_AIN1_MUX_0_1
+                    bool "0 & 1"
+                config ADS1115_AIN1_MUX_1_3
+                    bool "1 & 3"
+                config ADS1115_AIN1_MUX_1_GND
+                    bool "1 & GND"
+            endchoice
+
+            choice ADS1115_AIN1_PGA
+                prompt "Programmable gain amplifier configuration"
+                default ADS1115_AIN1_PGA_6_144
+                help
+                    These bits set the FSR of the programmable gain amplifier.
+
+                config ADS1115_AIN1_PGA_0_256
+                    bool "±0.256 V"
+                config ADS1115_AIN1_PGA_0_512
+                    bool "±0.512 V"
+                config ADS1115_AIN1_PGA_1_024
+                    bool "±1.024 V"
+                config ADS1115_AIN1_PGA_2_048
+                    bool "±2.048 V"
+                config ADS1115_AIN1_PGA_4_096
+                    bool "±4.096 V"
+                config ADS1115_AIN1_PGA_6_144
+                    bool "±6.144 V"
+            endchoice
+
+            choice ADS1115_AIN1_MODE
+                prompt "Device operating mode"
+                default ADS1115_AIN1_MODE_SINGLE_SHOT
+                help
+                    This bit controls the operating mode.
+
+                config ADS1115_AIN1_MODE_CONTINUOUS
+                    bool "Continuous"
+                config ADS1115_AIN1_MODE_SINGLE_SHOT
+                    bool "Single shot"
+            endchoice
+
+            choice ADS1115_AIN1_DR
+                prompt "Data rate"
+                default ADS1115_AIN1_DR_128_SPS
+                help
+                    These bits control the data rate setting.
+
+                config ADS1115_AIN1_DR_8_SPS
+                    bool "8 SPS"
+                config ADS1115_AIN1_DR_16_SPS
+                    bool "16 SPS"
+                config ADS1115_AIN1_DR_32_SPS
+                    bool "32 SPS"
+                config ADS1115_AIN1_DR_64_SPS
+                    bool "64 SPS"
+                config ADS1115_AIN1_DR_128_SPS
+                    bool "128 SPS"
+                config ADS1115_AIN1_DR_250_SPS
+                    bool "250 SPS"
+                config ADS1115_AIN1_DR_475_SPS
+                    bool "475 SPS"
+                config ADS1115_AIN1_DR_860_SPS
+                    bool "860 SPS"
+            endchoice
+
+            choice ADS1115_AIN1_COMP_MODE
+                prompt "Comparator mode"
+                default ADS1115_AIN1_COMP_MODE_TRADITIONAL
+                help
+                    This bit configures the comparator operating mode.
+
+                config ADS1115_AIN1_COMP_MODE_TRADITIONAL
+                    bool "Traditional"
+                config ADS1115_AIN1_COMP_MODE_WINDOW
+                    bool "Window"
+            endchoice
+
+            choice ADS1115_AIN1_COMP_POL
+                prompt "Comparator polarity"
+                default ADS1115_AIN1_COMP_POL_LOW
+                help
+                    This bit controls the polarity of the ALERT/RDY pin.
+
+                config ADS1115_AIN1_COMP_POL_LOW
+                    bool "Active low"
+                config ADS1115_AIN1_COMP_POL_HIGH
+                    bool "Active high"
+            endchoice
+
+            choice ADS1115_AIN1_COMP_LAT
+                prompt "Latching comparator"
+                default ADS1115_AIN1_COMP_LAT_NONLATCHING
+                help
+                    This bit controls whether the ALERT/RDY pin latches after being asserted or clears after
+                    conversions are within the margin of the upper and lower threshold values.
+
+                config ADS1115_AIN1_COMP_LAT_NONLATCHING
+                    bool "Nonlatching"
+                config ADS1115_AIN1_COMP_LAT_LATCHING
+                    bool "Latching"
+            endchoice
+
+            choice ADS1115_AIN1_COMP_QUE
+                prompt "Comparator queue and disable"
+                default ADS1115_AIN1_COMP_QUE_DISABLE
+                help
+                    These bits perform two functions. When set to 11, the comparator is disabled and the
+                    ALERT/RDY pin is set to a high-impedance state. When set to any other value, the ALERT/RDY
+                    pin and the comparator function are enabled, and the set value determines the number of
+                    successive conversions exceeding the upper or lower threshold required before asserting
+                    the ALERT/RDY pin.
+
+                config ADS1115_AIN1_COMP_QUE_ASSERT1
+                    bool "Assert after one conversion"
+                config ADS1115_AIN1_COMP_QUE_ASSERT2
+                    bool "Assert after two conversions"
+                config ADS1115_AIN1_COMP_QUE_ASSERT4
+                    bool "Assert after four conversions"
+                config ADS1115_AIN1_COMP_QUE_DISABLE
+                    bool "Disable"
+            endchoice
+        endmenu
+
+        menu "Channel 2"
+            choice ADS1115_AIN2_MUX
+                prompt "Input multiplexer configuration"
+                default ADS1115_AIN2_MUX_2_GND
+                help
+                    These bits configure the input multiplexer.
+
+                config ADS1115_AIN2_MUX_2_3
+                    bool "2 & 3"
+                config ADS1115_AIN2_MUX_2_GND
+                    bool "2 & GND"
+            endchoice
+
+            choice ADS1115_AIN2_PGA
+                prompt "Programmable gain amplifier configuration"
+                default ADS1115_AIN2_PGA_6_144
+                help
+                    These bits set the FSR of the programmable gain amplifier.
+
+                config ADS1115_AIN2_PGA_0_256
+                    bool "±0.256 V"
+                config ADS1115_AIN2_PGA_0_512
+                    bool "±0.512 V"
+                config ADS1115_AIN2_PGA_1_024
+                    bool "±1.024 V"
+                config ADS1115_AIN2_PGA_2_048
+                    bool "±2.048 V"
+                config ADS1115_AIN2_PGA_4_096
+                    bool "±4.096 V"
+                config ADS1115_AIN2_PGA_6_144
+                    bool "±6.144 V"
+            endchoice
+
+            choice ADS1115_AIN2_MODE
+                prompt "Device operating mode"
+                default ADS1115_AIN2_MODE_SINGLE_SHOT
+                help
+                    This bit controls the operating mode.
+
+                config ADS1115_AIN2_MODE_CONTINUOUS
+                    bool "Continuous"
+                config ADS1115_AIN2_MODE_SINGLE_SHOT
+                    bool "Single shot"
+            endchoice
+
+            choice ADS1115_AIN2_DR
+                prompt "Data rate"
+                default ADS1115_AIN2_DR_128_SPS
+                help
+                    These bits control the data rate setting.
+
+                config ADS1115_AIN2_DR_8_SPS
+                    bool "8 SPS"
+                config ADS1115_AIN2_DR_16_SPS
+                    bool "16 SPS"
+                config ADS1115_AIN2_DR_32_SPS
+                    bool "32 SPS"
+                config ADS1115_AIN2_DR_64_SPS
+                    bool "64 SPS"
+                config ADS1115_AIN2_DR_128_SPS
+                    bool "128 SPS"
+                config ADS1115_AIN2_DR_250_SPS
+                    bool "250 SPS"
+                config ADS1115_AIN2_DR_475_SPS
+                    bool "475 SPS"
+                config ADS1115_AIN2_DR_860_SPS
+                    bool "860 SPS"
+            endchoice
+
+            choice ADS1115_AIN2_COMP_MODE
+                prompt "Comparator mode"
+                default ADS1115_AIN2_COMP_MODE_TRADITIONAL
+                help
+                    This bit configures the comparator operating mode.
+
+                config ADS1115_AIN2_COMP_MODE_TRADITIONAL
+                    bool "Traditional"
+                config ADS1115_AIN2_COMP_MODE_WINDOW
+                    bool "Window"
+            endchoice
+
+            choice ADS1115_AIN2_COMP_POL
+                prompt "Comparator polarity"
+                default ADS1115_AIN2_COMP_POL_LOW
+                help
+                    This bit controls the polarity of the ALERT/RDY pin.
+
+                config ADS1115_AIN2_COMP_POL_LOW
+                    bool "Active low"
+                config ADS1115_AIN2_COMP_POL_HIGH
+                    bool "Active high"
+            endchoice
+
+            choice ADS1115_AIN2_COMP_LAT
+                prompt "Latching comparator"
+                default ADS1115_AIN2_COMP_LAT_NONLATCHING
+                help
+                    This bit controls whether the ALERT/RDY pin latches after being asserted or clears after
+                    conversions are within the margin of the upper and lower threshold values.
+
+                config ADS1115_AIN2_COMP_LAT_NONLATCHING
+                    bool "Nonlatching"
+                config ADS1115_AIN2_COMP_LAT_LATCHING
+                    bool "Latching"
+            endchoice
+
+            choice ADS1115_AIN2_COMP_QUE
+                prompt "Comparator queue and disable"
+                default ADS1115_AIN2_COMP_QUE_DISABLE
+                help
+                    These bits perform two functions. When set to 11, the comparator is disabled and the
+                    ALERT/RDY pin is set to a high-impedance state. When set to any other value, the ALERT/RDY
+                    pin and the comparator function are enabled, and the set value determines the number of
+                    successive conversions exceeding the upper or lower threshold required before asserting
+                    the ALERT/RDY pin.
+
+                config ADS1115_AIN2_COMP_QUE_ASSERT1
+                    bool "Assert after one conversion"
+                config ADS1115_AIN2_COMP_QUE_ASSERT2
+                    bool "Assert after two conversions"
+                config ADS1115_AIN2_COMP_QUE_ASSERT4
+                    bool "Assert after four conversions"
+                config ADS1115_AIN2_COMP_QUE_DISABLE
+                    bool "Disable"
+            endchoice
+        endmenu
+
+        menu "Channel 3"
+            choice ADS1115_AIN3_MUX
+                prompt "Input multiplexer configuration"
+                default ADS1115_AIN3_MUX_3_GND
+                help
+                    These bits configure the input multiplexer.
+
+                config ADS1115_AIN3_MUX_0_3
+                    bool "0 & 3"
+                config ADS1115_AIN3_MUX_1_3
+                    bool "1 & 3"
+                config ADS1115_AIN3_MUX_2_3
+                    bool "2 & 3"
+                config ADS1115_AIN3_MUX_3_GND
+                    bool "3 & GND"
+            endchoice
+
+            choice ADS1115_AIN3_PGA
+                prompt "Programmable gain amplifier configuration"
+                default ADS1115_AIN3_PGA_6_144
+                help
+                    These bits set the FSR of the programmable gain amplifier.
+
+                config ADS1115_AIN3_PGA_0_256
+                    bool "±0.256 V"
+                config ADS1115_AIN3_PGA_0_512
+                    bool "±0.512 V"
+                config ADS1115_AIN3_PGA_1_024
+                    bool "±1.024 V"
+                config ADS1115_AIN3_PGA_2_048
+                    bool "±2.048 V"
+                config ADS1115_AIN3_PGA_4_096
+                    bool "±4.096 V"
+                config ADS1115_AIN3_PGA_6_144
+                    bool "±6.144 V"
+            endchoice
+
+            choice ADS1115_AIN3_MODE
+                prompt "Device operating mode"
+                default ADS1115_AIN3_MODE_SINGLE_SHOT
+                help
+                    This bit controls the operating mode.
+
+                config ADS1115_AIN3_MODE_CONTINUOUS
+                    bool "Continuous"
+                config ADS1115_AIN3_MODE_SINGLE_SHOT
+                    bool "Single shot"
+            endchoice
+
+            choice ADS1115_AIN3_DR
+                prompt "Data rate"
+                default ADS1115_AIN3_DR_128_SPS
+                help
+                    These bits control the data rate setting.
+
+                config ADS1115_AIN3_DR_8_SPS
+                    bool "8 SPS"
+                config ADS1115_AIN3_DR_16_SPS
+                    bool "16 SPS"
+                config ADS1115_AIN3_DR_32_SPS
+                    bool "32 SPS"
+                config ADS1115_AIN3_DR_64_SPS
+                    bool "64 SPS"
+                config ADS1115_AIN3_DR_128_SPS
+                    bool "128 SPS"
+                config ADS1115_AIN3_DR_250_SPS
+                    bool "250 SPS"
+                config ADS1115_AIN3_DR_475_SPS
+                    bool "475 SPS"
+                config ADS1115_AIN3_DR_860_SPS
+                    bool "860 SPS"
+            endchoice
+
+            choice ADS1115_AIN3_COMP_MODE
+                prompt "Comparator mode"
+                default ADS1115_AIN3_COMP_MODE_TRADITIONAL
+                help
+                    This bit configures the comparator operating mode.
+
+                config ADS1115_AIN3_COMP_MODE_TRADITIONAL
+                    bool "Traditional"
+                config ADS1115_AIN3_COMP_MODE_WINDOW
+                    bool "Window"
+            endchoice
+
+            choice ADS1115_AIN3_COMP_POL
+                prompt "Comparator polarity"
+                default ADS1115_AIN3_COMP_POL_LOW
+                help
+                    This bit controls the polarity of the ALERT/RDY pin.
+
+                config ADS1115_AIN3_COMP_POL_LOW
+                    bool "Active low"
+                config ADS1115_AIN3_COMP_POL_HIGH
+                    bool "Active high"
+            endchoice
+
+            choice ADS1115_AIN3_COMP_LAT
+                prompt "Latching comparator"
+                default ADS1115_AIN3_COMP_LAT_NONLATCHING
+                help
+                    This bit controls whether the ALERT/RDY pin latches after being asserted or clears after
+                    conversions are within the margin of the upper and lower threshold values.
+
+                config ADS1115_AIN3_COMP_LAT_NONLATCHING
+                    bool "Nonlatching"
+                config ADS1115_AIN3_COMP_LAT_LATCHING
+                    bool "Latching"
+            endchoice
+
+            choice ADS1115_AIN3_COMP_QUE
+                prompt "Comparator queue and disable"
+                default ADS1115_AIN3_COMP_QUE_DISABLE
+                help
+                    These bits perform two functions. When set to 11, the comparator is disabled and the
+                    ALERT/RDY pin is set to a high-impedance state. When set to any other value, the ALERT/RDY
+                    pin and the comparator function are enabled, and the set value determines the number of
+                    successive conversions exceeding the upper or lower threshold required before asserting
+                    the ALERT/RDY pin.
+
+                config ADS1115_AIN3_COMP_QUE_ASSERT1
+                    bool "Assert after one conversion"
+                config ADS1115_AIN3_COMP_QUE_ASSERT2
+                    bool "Assert after two conversions"
+                config ADS1115_AIN3_COMP_QUE_ASSERT4
+                    bool "Assert after four conversions"
+                config ADS1115_AIN3_COMP_QUE_DISABLE
+                    bool "Disable"
+            endchoice
+        endmenu
+    endmenu
+endmenu
