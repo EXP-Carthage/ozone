@@ -1,0 +1,18 @@
+BasedOnStyle: Google
+
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossComments: false
+  AcrossEmptyLines: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+RemoveBracesLLVM: true
+BreakBeforeBraces: Attach
+ColumnLimit: 120
+Cpp11BracedListStyle: false
+DerivePointerAlignment: false
+IndentPPDirectives: BeforeHash
+IndentWidth: 2
+PointerAlignment: Left
+SeparateDefinitionBlocks: Always
+UseTab: Never
